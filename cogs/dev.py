@@ -50,19 +50,20 @@ class dev(commands.Cog):
         write(data)
     
     @commands.command()
-    @commands.has_role("Developers")
-    async def almanac(self, ctx, type, arg):
-        if type == False:
-            await ctx.send("You need to add the type!")
-        
-        if type != "plant" or "zombie":
-            await ctx.send("That's not a type!")
+    async def almanac_zomb(self, ctx, arg):
+        with open('almanac.json', 'r') as file:
+            data = json.load(file)
 
-        if arg == False:
-            await ctx.send(f"You need to add the {type}")
+            await ctx.send(data["zombie"[arg]])
+    
+    @commands.command()
+    async def almanac_plants(self, ctx, arg):
+        embed = discord.Embed(color=discord.Color.green())
 
-        with open('almanac.json', 'w') as file:
-            await ctx.send(file[type].arg)
+        with open('almanac.json', 'r') as file:
+            data = json.load(file.read())
+
+            embed.add_field(name=data["plants"[arg][0]], value=data["plants"[arg][1]])
 
 def setup(client):
     client.add_cog(dev(client))
