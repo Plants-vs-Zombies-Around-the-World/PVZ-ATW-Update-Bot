@@ -7,6 +7,8 @@ from discord.utils import get
 client = commands.Bot(command_prefix='?')
 client.remove_command('help')
 
+intents = discord.Intents(members=True)
+
 @client.event
 async def on_ready():
     print("Ready!")
@@ -14,7 +16,7 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-    role = get(member.server.roles, name="member")
+    role = get(member.server.roles, name="Member")
     await client.add_roles(member, role)
 
 @client.command()
